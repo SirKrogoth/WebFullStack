@@ -1,0 +1,11 @@
+{
+  "name": "licao_05",
+  "version": "1.0.0",
+  "description": "--criando uma api simples e rápidao, nao profissional\r express -e --git webapi001",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
