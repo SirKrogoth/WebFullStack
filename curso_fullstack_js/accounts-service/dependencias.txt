@@ -1,0 +1,13 @@
+npm init
+npm install express
+//segurança para API
+npm install helmet
+//instalar o type-script
+npm install typescript
+npx tsc --init
+npm i --save-dev @types/node @types/express
+//pacote .env para gestao das variaveis de ambiente
+npm install dotenv-safe
+//serve para reiniar o servidor e a compilação do typescript automaticamente.
+//-g significa que a instalação será global, não somente nesse projeto
+npm i -g nodemon
