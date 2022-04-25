@@ -11,3 +11,8 @@ npm install dotenv-safe
 //serve para reiniar o servidor e a compilação do typescript automaticamente.
 //-g significa que a instalação será global, não somente nesse projeto
 npm i -g nodemon
+//Testes
+npm i --save-dev jest supertest ts-jest @types/jest
+npm install -g yarn
+yarn jest --init
+npm install ts-node
