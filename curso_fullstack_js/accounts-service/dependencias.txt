@@ -16,3 +16,7 @@ npm i --save-dev jest supertest ts-jest @types/jest
 npm install -g yarn
 yarn jest --init
 npm install ts-node
+npm install @types/supertest
+//validacao
+npm install joi
+npm install @types/joi
