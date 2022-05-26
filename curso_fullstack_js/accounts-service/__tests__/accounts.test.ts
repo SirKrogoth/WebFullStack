@@ -9,6 +9,7 @@ describe('Testando rotas do accounts', () => {
         const resultado = await request(app)
             .get('/accounts/');
         
+        console.log(resultado);
         expect(resultado.status).toEqual(200);
         expect(Array.isArray(resultado.body)).toBeTruthy();
         
