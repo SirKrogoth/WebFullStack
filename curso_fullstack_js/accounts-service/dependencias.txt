@@ -20,3 +20,5 @@ npm install @types/supertest
 //validacao
 npm install joi
 npm install @types/joi
+npm install sequelize mysql2
+npm i --save-dev @types/validator
