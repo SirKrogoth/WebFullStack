@@ -28,7 +28,7 @@ exports.default = {
     // A list of reporter names that Jest uses when writing coverage reports
     coverageReporters: [
         "text-summary",
-        "lcov",
+        "lcov"
     ],
     // An object that configures minimum threshold enforcement for coverage results
     // coverageThreshold: undefined,

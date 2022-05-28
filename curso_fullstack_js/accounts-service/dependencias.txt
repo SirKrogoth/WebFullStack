@@ -22,3 +22,5 @@ npm install joi
 npm install @types/joi
 npm install sequelize mysql2
 npm i --save-dev @types/validator
+npm i bcryptjs
+npm i --save-dev @types/bcryptjs
