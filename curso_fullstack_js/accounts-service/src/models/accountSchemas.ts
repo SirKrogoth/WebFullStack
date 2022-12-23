@@ -29,8 +29,7 @@ const accountSchema = joi.object({
 const accountUpdateSchema = joi.object({
     name: joi.string()
              .min(3)
-             .max(150)
-             .required(),
+             .max(150),
     password: joi.string()
                  .min(4)
                  .max(50),
