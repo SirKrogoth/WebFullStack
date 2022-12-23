@@ -62,6 +62,13 @@ describe('Testando rotas do accounts', () => {
         expect(resultado.status).toEqual(400);
     })
 
+    it('GET /account/:id - Deverá retornar statusCode 404', async() => {
+        const resultado = await request(app)
+            .get('/accounts/2');
+
+        expect(resultado.status).toEqual(404);
+    })
+
     it('PATCH /accounts/:id - Deve retornar statuscode 200', async () => {
         const payload = {
             name: 'Pedro Geromel',

@@ -1,4 +1,4 @@
-import joi from 'Joi';
+import joi from 'joi';
 
 const accountSchema = joi.object({
     id: joi.number()

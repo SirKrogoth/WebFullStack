@@ -16,7 +16,6 @@ async function getAccounts(req: Request, res: Response, next: any){
 async function getAccount(req: Request, res: Response, next: any){
     try {
         const id = parseInt(req.params.id);
-        console.log(id);
         
         const account = await repository.findById(id);
         
