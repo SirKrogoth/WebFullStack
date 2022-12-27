@@ -24,3 +24,6 @@ npm install sequelize mysql2
 npm i --save-dev @types/validator
 npm i bcryptjs
 npm i --save-dev @types/bcryptjs
+//Criação do token de autenticação
+npm i jsonwebtoken
+npm i --save-dev @types/jsonwebtoken
