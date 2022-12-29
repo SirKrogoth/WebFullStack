@@ -15,7 +15,7 @@ const accountSchema = joi.object({
               .required(),
     password: joi.string()
                  .min(4)
-                 .max(50)
+                 .max(150)
                  .required(),
     status: joi.number()
                .integer()
@@ -24,6 +24,7 @@ const accountSchema = joi.object({
     domain: joi.string()
                 .min(5)
                 .max(150)
+                .required()
 });
 
 const accountUpdateSchema = joi.object({

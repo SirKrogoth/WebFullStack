@@ -2,34 +2,62 @@ import { expectCt } from 'helmet';
 import { resourceUsage, send } from 'process';
 import request from 'supertest';
 import { isTypedArray } from 'util/types';
+import { IAccount } from '../src/models/IAccount';
 import app from './../src/app';
+import repository from '../src/models/accountRepository';
+import auth from '../src/auth';
+import { resourceLimits } from 'worker_threads';
+
+const testEmail = 'jest@test.com';
+const hashPassword = '$2a$10$x2YedLGwnQsjwuBSWRcDHeff9gk/qHtVIwxwbw.Ry18rDF7cqE/76';//123456
+const testPassword = '123456';
+let jwt : string;
+let idTest : number;
+
+beforeAll(async () => {
+    const testAccount : IAccount = {
+        name: 'jest',
+        email: testEmail,
+        password: hashPassword,
+        domain: 'jest.com'
+    }
+
+    const result = await repository.add(testAccount);
+    idTest = result.id!;
+    jwt = auth.sign(result.id!);
+})
+
+afterAll(async () => {
+    await repository.removeByEmail(testEmail);    
+    await repository.removeByEmail("soares@gremio.com");
+})
+
 
 describe('Testando rotas do accounts', () => {
     it('GET /accounts/ - Deverá retornar statusCode 200', async () => {
         const resultado = await request(app)
-            .get('/accounts/');
+            .get('/accounts/')
+            .set('x-access-token', jwt);
         
-        console.log(resultado);
         expect(resultado.status).toEqual(200);
         expect(Array.isArray(resultado.body)).toBeTruthy();
         
     })    
 
     it('POST /accounts/ - Deve retornar statusCode 201', async () => {
-        const payload = {
-            id: 1,
-            name: 'Pedro Geromel',
-            email: 'pedraodageral@gremio.net',
-            password: '123456',
-            status: 100
+        const payloadTest : IAccount = {
+            name: "Luizito Soares",
+            email: "soares@gremio.com",
+            password: "123456",
+            domain: "soares.gremio.net"
         }
 
         const resultado = await request(app)
             .post('/accounts/')
-            .send(payload);
+            .send(payloadTest);
 
         expect(resultado.status).toEqual(201);
-        expect(resultado.body.id).toBe(1);
+        expect(resultado.status).toBeTruthy();
     })
 
     it('POST /accounts/ - Deverá retornar statusCode 422', async () => {
@@ -46,69 +74,28 @@ describe('Testando rotas do accounts', () => {
 
         expect(resultado.status).toEqual(422);
     })
-
+    
     it('GET /account/:id - Deve retornar statusCode 200', async () => {
         const resultado = await request(app)
-            .get('/accounts/1');
+            .get('/accounts/1')
+            .set('x-access-token', jwt);
 
         expect(resultado.status).toEqual(200);
         expect(resultado.body.id).toBe(1);
     })
-
-    it('GET /account/:id - Deve retornar statusCode 400', async () => {
-        const resultado = await request(app)
-            .get('/accounts/abv');
-
-        expect(resultado.status).toEqual(400);
-    })
-
-    it('GET /account/:id - Deverá retornar statusCode 404', async() => {
-        const resultado = await request(app)
-            .get('/accounts/2');
-
-        expect(resultado.status).toEqual(404);
-    })
-
+        
     it('PATCH /accounts/:id - Deve retornar statuscode 200', async () => {
         const payload = {
-            name: 'Pedro Geromel',
-            email: 'pedraodageral@gremio.net',
-            password: '123456789'
+            name: 'Pedro Geromel'
         }        
 
         const resultado = await request(app)
-            .patch('/accounts/1')
-            .send(payload);
+            .patch('/accounts/' + idTest)
+            .send(payload)
+            .set('x-access-token', jwt);         
 
         expect(resultado.status).toEqual(200);
-        expect(resultado.body.id).toEqual(1);
-    })
-
-    it('PATCH /accounts/:id - Deve retornar statuscode 400', async () => {
-        const payload = {
-            name: 'Pedro Geromel',
-            email: 'pedraodageral@gremio.net',
-            password: '123456789'
-        }        
-
-        const resultado = await request(app)
-            .patch('/accounts/abc')
-            .send(payload);
-
-        expect(resultado.status).toEqual(400);
-    })
-
-    it('PATCH /accounts/:id - Deve retornar statuscode 404', async () => {
-        const payload = {
-            name: 'Pedro Geromel',
-            email: 'pedraodageral@gremio.net',
-            password: '123456789'
-        }        
-
-        const resultado = await request(app)
-            .patch('/accounts/-1')
-            .send(payload);
-
-        expect(resultado.status).toEqual(404);
+        expect(resultado.body.id).toEqual(idTest);
+        expect(resultado.body.name).toEqual(payload.name);
     })
 });

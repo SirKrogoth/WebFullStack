@@ -27,3 +27,6 @@ npm i --save-dev @types/bcryptjs
 //Criação do token de autenticação
 npm i jsonwebtoken
 npm i --save-dev @types/jsonwebtoken
+
+npm i ts-node
+npm i tsconfig-paths
