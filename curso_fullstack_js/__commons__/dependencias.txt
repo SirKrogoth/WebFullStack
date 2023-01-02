@@ -1,0 +1,25 @@
+//Testes
+npm i --save-dev jest supertest ts-jest @types/jest
+npm install -g yarn
+yarn jest --init
+npm install ts-node
+npm install @types/supertest
+
+
+npm install typescript
+npx tsc --init
+npm i --save-dev @types/node @types/express
+
+
+npm i express
+npm i helmet
+npm i --save-dev @types/express
+
+npm i sequelize mysql2
+npm i --save-dev @types/validator
+
+npm i joi
+npm i --save-dev @types/joi
+
+npm i jsonwebtoken
+npm i --save-dev @types/jsonwebtoken
