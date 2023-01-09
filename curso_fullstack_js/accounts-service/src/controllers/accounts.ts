@@ -2,6 +2,8 @@ import {Request, response, Response} from 'express';
 import { IAccount } from '../models/IAccount';
 import repository from '../models/accountRepository';
 import auth from '../auth';
+import controllerCommons from 'ms-commons/api/controllers/controller';
+import {Token} from 'ms-commons/api/auth';
 
 async function getAccounts(req: Request, res: Response, next: any){
     const accounts : IAccount[] = await repository.findAll();
@@ -14,6 +16,7 @@ async function getAccounts(req: Request, res: Response, next: any){
 async function getAccount(req: Request, res: Response, next: any){
     try {
         const id = parseInt(req.params.id);
+        if(!id) return res.status(400).end();
         
         const account = await repository.findById(id);
         
@@ -99,4 +102,17 @@ function logoutAccount(req: Request, res: Response, next: any){
     }
 }
 
-export default { getAccounts, addAccount, getAccount , setAccount, loginAccount, logoutAccount }
+async function deleteAccount(req: Request, res: Response, next: any){
+    try {       
+        const accountId = parseInt(req.params.id);
+        if(!accountId) return res.status(400).end();
+
+        await repository.remove(accountId);
+        res.status(200).end();
+    } catch (error) {
+        console.log('deleteAccount: ' + error);
+        
+    }
+}
+
+export default { getAccounts, addAccount, getAccount , setAccount, loginAccount, logoutAccount, deleteAccount }

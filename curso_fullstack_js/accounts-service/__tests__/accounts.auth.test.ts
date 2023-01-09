@@ -2,10 +2,13 @@ import request from "supertest";
 import app from "../src/app";
 import repository from '../src/models/accountRepository';
 import { IAccount } from "../src/models/IAccount";
+import auth from '../src/auth';
 
 const testEmail = 'jest@test.com';
 const hashPassword = '$2a$10$x2YedLGwnQsjwuBSWRcDHeff9gk/qHtVIwxwbw.Ry18rDF7cqE/76';//123456
 const testPassword = '123456';
+let jwt : string;
+let testAccountId : number;
 
 beforeAll(async () => {
     const testAccount : IAccount = {
@@ -15,7 +18,9 @@ beforeAll(async () => {
         domain: 'jest.com'
     }
 
-    await repository.add(testAccount);
+    const result = await repository.add(testAccount);
+    testAccountId = result.id!;
+    jwt = auth.sign(testAccountId!);
 })
 
 afterAll(async () => {
@@ -78,7 +83,8 @@ describe('Testando rotas de autenticação', () => {
 
     it('POST /accounts/logout - 200', async () => {
         const resultado = await request(app)
-            .post('/accounts/logout');
+            .post('/accounts/logout')
+            .set('x-access-token', jwt);
 
         expect(resultado.status).toEqual(200);
     })

@@ -1,8 +1,8 @@
 "use strict";
-/*
- * For a detailed explanation regarding each configuration property and type check, visit:
- * https://jestjs.io/docs/configuration
- */
+
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { compilerOptions } = require('./tsconfig');
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     // All imported modules in your tests should be mocked automatically
@@ -60,7 +60,7 @@ exports.default = {
     //   "node"
     // ],
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-    // moduleNameMapper: {},
+     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
     // modulePathIgnorePatterns: [],
     // Activates notifications for test results
@@ -90,7 +90,7 @@ exports.default = {
     // Allows you to use a custom runner instead of Jest's default test runner
     // runner: "jest-runner",
     // The paths to modules that run some code to configure or set up the testing environment before each test
-     setupFiles: ["dotenv/config"],
+     setupFiles: ["dotenv/config", "tsconfig-paths/register"],
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
     // setupFilesAfterEnv: [],
     // The number of seconds after which a test is considered as slow and reported as such in the results.

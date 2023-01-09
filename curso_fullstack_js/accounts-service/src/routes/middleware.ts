@@ -1,51 +1,43 @@
 import { Request, Response } from "express";
-import Joi from "joi";
-import auth from "../auth";
+import commonsMiddleware from 'ms-commons/api/routes/middlewares';
 import { accountSchema, accountUpdateSchema, loginSchema } from "../models/accountSchemas";
-
-function validadeSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any){
-    const { error } = schema.validate(req.body);
-    
-    if(error == null) return next();
-
-    const { details } = error;
-    const message = details.map(item => item.message).join(',');
-    
-    res.status(422).end();
-}
+import controllerCommons from 'ms-commons/api/controllers/controller';
+import {Token} from 'ms-commons/api/auth';
+import controller from "ms-commons/api/controllers/controller";
 
 function validateAccountSchema(req: Request, res: Response, next: any){
-    return validadeSchema(accountSchema, req, res, next);
-}
-
-function validateLoginSchema(req: Request, res: Response, next: any){
-    return validadeSchema(loginSchema, req, res, next);
+    return commonsMiddleware.validadeSchema(accountSchema, req, res, next);
 }
 
 function validateUpdateAccountSchema(req: Request, res: Response, next: any){
-    return validadeSchema(accountUpdateSchema, req, res, next);
+    return commonsMiddleware.validadeSchema(accountUpdateSchema, req, res, next);
+}
+
+function validateLoginSchema(req: Request, res: Response, next: any){
+    return commonsMiddleware.validadeSchema(loginSchema, req, res, next);
 }
 
 async function validateAuth(req: Request, res: Response, next: any){
-    try {
-        const token = req.headers['x-access-token'] as string;
-        if(!token) return res.status(401).end();
+    return commonsMiddleware.validateAuth(req, res, next);
+}
 
-        const payload = await auth.verify(token);
-        if(!payload) return res.status(401).end();
+function validateAuthorization(req: Request, res: Response, next: any){
+    //pegando ID de quem está autenticado
+    const accountId = parseInt(req.params.id);
+    if(!accountId) return res.status(400).end();
 
-        res.locals.payload = payload;
+    const token = controllerCommons.getToken(res) as Token;
+    console.log(accountId);
+    console.log(token.accountId);
+    if(accountId !== token.accountId) return res.status(403).end();
 
-        next();
-    } catch (error) {
-        console.log('validateAuth: ' + error);
-        res.status(400).end();
-    }
+    next();
 }
 
 export {
     validateAccountSchema,
     validateLoginSchema,
     validateUpdateAccountSchema,
-    validateAuth
+    validateAuth,
+    validateAuthorization
 }

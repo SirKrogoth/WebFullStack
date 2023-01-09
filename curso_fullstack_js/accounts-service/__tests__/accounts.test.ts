@@ -24,7 +24,7 @@ beforeAll(async () => {
 
     const result = await repository.add(testAccount);
     idTest = result.id!;
-    jwt = auth.sign(result.id!);
+    jwt = auth.sign(idTest);
 })
 
 afterAll(async () => {
@@ -77,11 +77,11 @@ describe('Testando rotas do accounts', () => {
     
     it('GET /account/:id - Deve retornar statusCode 200', async () => {
         const resultado = await request(app)
-            .get('/accounts/1')
+            .get(`/accounts/${idTest}`)
             .set('x-access-token', jwt);
 
         expect(resultado.status).toEqual(200);
-        expect(resultado.body.id).toBe(1);
+        expect(resultado.body.id).toBe(idTest);
     })
         
     it('PATCH /accounts/:id - Deve retornar statuscode 200', async () => {
