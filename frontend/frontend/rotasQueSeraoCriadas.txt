@@ -1,0 +1,11 @@
+/signin -- login
+/signup -- cadastro
+
+/       -- cadastro
+/contacts -- lista de contatos
+/contacts/add -- adicionar contatos
+/contacts/:contactId -- visualizar contatos
+
+/messages -- listar mensagens
+/messages/add -- adicionar mensagem
+/messages/:messageId -- visualizar detalhe da mensagem
