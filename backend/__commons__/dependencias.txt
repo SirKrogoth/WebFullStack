@@ -23,3 +23,6 @@ npm i --save-dev @types/joi
 
 npm i jsonwebtoken
 npm i --save-dev @types/jsonwebtoken
+
+npm i cors --save
+npm i --save-dev @types/cors

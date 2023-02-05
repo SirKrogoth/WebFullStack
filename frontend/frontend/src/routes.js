@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, useParams, useRouteMatch } from 'react-router-dom';
+import SignIn from './pages/public/SignIn';
+import SignUp from './pages/public/SignUp';
 
 function Home(){
     return (
@@ -42,22 +44,6 @@ function Contact(){
             <h3>Contato: {contactId} </h3>
         </div>
     );
-}
-
-function Signin(){
-    return (
-        <div>
-            <h2>Logon</h2>
-        </div>
-    )
-}
-
-function Signup(){
-    return (
-        <div>
-            <h2>Cadastro</h2>
-        </div>
-    )
 }
 
 function Messages(){
@@ -103,7 +89,7 @@ function Menu(){
                 <Link to="/messages">Mensagens</Link>
             </li>
             <li>
-                <Link to="/signin">Sair</Link>
+                <Link to="/signIn">Sair</Link>
             </li>
         </ul>
     )
@@ -117,11 +103,11 @@ export default function Routes(){
                     <Route exact path="/">
                         <Home />
                     </Route>
-                    <Route path="/signin">
-                        <Signin />
+                    <Route path="/signIn">
+                        <SignIn />
                     </Route>
-                    <Route path="/signup">
-                        <Signup />
+                    <Route path="/signUp">
+                        <SignUp />
                     </Route>
                     <Route path="/contacts">
                         <Contacts />
